@@ -17,7 +17,7 @@ public class AuthService {
     }
 
     public static Map<String, String> validateUserCredentials(String email, String password){
-        if(!UsersRepository.userIsValid(email, password){
+        if(!UsersRepository.userIsValid(email, password)){
             throw new Error("One or more details are incorrect");
         }
         Map<String, String> tokenEmail = new HashMap<>();

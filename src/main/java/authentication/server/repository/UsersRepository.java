@@ -19,7 +19,6 @@ public class UsersRepository {
         ReadWriteToJson.writeToJson(fileName, userMap);
     }
 
-
     public static boolean userIsValid(String email, String password) {
         //todo
         return false;

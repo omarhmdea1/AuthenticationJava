@@ -42,7 +42,7 @@ public class UserController {
 
 
     private boolean checkAuth(String token) {
-        return true; //!authService.isValidToken(token);
+        return true; //userService.isValidToken(token);
     }
 
 

@@ -18,4 +18,15 @@ public class UsersRepository {
         userMap.put("password", newUser.getPassword());
         ReadWriteToJson.writeToJson(fileName, userMap);
     }
+
+
+    public static boolean userIsValid(String email, String password) {
+        //todo
+        return false;
+    }
+
+    public static boolean emailIsFree(String email) {
+        //todo
+        return false;
+    }
 }

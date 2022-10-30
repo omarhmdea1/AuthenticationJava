@@ -1,4 +1,5 @@
 package authentication.server.controllers;
 
-public class UserController {
+public class UserController{
+
 }

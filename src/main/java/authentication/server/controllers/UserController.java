@@ -11,31 +11,46 @@ public class UserController {
 
 
     public void updateName(String token, String name) {
-        if(! checkAuth(token)) throw new IllegalArgumentException("Invalid token");
-        if(! isValidName(name)) throw new IllegalArgumentException("Invalid name");
+
+        if(! checkAuth(token)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        if(! isValidName(name)) {
+            throw new IllegalArgumentException("Invalid name");
+        }
 
         //userService.updateName(token, name);
     }
 
 
     public void updateEmail(String token, String email) {
-        if(! checkAuth(token)) throw new IllegalArgumentException("Invalid token");
-        if(! isValidEmail(email)) throw new IllegalArgumentException("Invalid name");
+        if(! checkAuth(token)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        if(! isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid name");
+        }
 
         //userService.updateEmail(token, name);
     }
 
 
     public void updatePassword(String token, String password) {
-        if(! checkAuth(token)) throw new IllegalArgumentException("Invalid token");
-        if(! isValidPassword(password)) throw new IllegalArgumentException("Invalid name");
+        if(! checkAuth(token)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
+        if(! isValidPassword(password)) {
+            throw new IllegalArgumentException("Invalid name");
+        }
 
         //userService.updatePassword(token, name);
     }
 
 
     public void delete(String token) {
-        if(! checkAuth(token)) throw new IllegalArgumentException("Invalid token");
+        if(! checkAuth(token)) {
+            throw new IllegalArgumentException("Invalid token");
+        }
 
         //userService.delete(token);
     }
@@ -47,7 +62,9 @@ public class UserController {
 
 
     private boolean isValidName(String name) {
-        if(name == null) return false;
+        if(name == null) {
+            return false;
+        }
 
         String regex = "^[A-Za-z]\\w{5,29}$";
 
@@ -57,7 +74,9 @@ public class UserController {
 
 
     private boolean isValidEmail(String email) {
-        if(email == null) return false;
+        if(email == null) {
+            return false;
+        }
 
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
@@ -71,7 +90,9 @@ public class UserController {
 
     private boolean isValidPassword(String password) {
 
-        if(password == null) return false;
+        if(password == null) {
+            return false;
+        }
 
         String regex = "^(?=.*[0-9])"
                 + "(?=.*[a-z])(?=.*[A-Z])"

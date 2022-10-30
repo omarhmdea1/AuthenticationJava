@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuthService {
-    public void validateRegister(int id, String name, String email, String password){
-
-    }
     public void createNewUser(int id, String name, String email, String password){
         if(!UsersRepository.emailIsFree(email)){
             throw  new Error("Email is occupied, please enter a different one");
@@ -28,7 +25,7 @@ public class AuthService {
         return tokenEmail;
     }
 
-    private String createToken(){
+    private static String createToken(){
         String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder stringBuilder = new StringBuilder(6);
         for (int i = 0; i < 6; i++){

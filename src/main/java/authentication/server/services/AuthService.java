@@ -24,15 +24,15 @@ public class AuthService {
     }
 
     public void createNewUser(String name, String email, String password){
-        if(!UsersRepository.emailIsFree(email)){
+        if(!usersRepository.emailIsFree(email)){
             throw new Error("Email is occupied, please enter a different one");
         }
         User newUser = new User(createId(), name, email, password);
-        UsersRepository.writeUserToRepo(newUser);
+        usersRepository.writeUserToRepo(newUser);
     }
 
     public Map<String, String> validateUserCredentials(String email, String password){
-        if(!UsersRepository.userIsValid(email, password)){
+        if(!usersRepository.userIsValid(email, password)){
             throw new Error("One or more details are incorrect");
         }
         tokenEmail.put(createToken(), email);

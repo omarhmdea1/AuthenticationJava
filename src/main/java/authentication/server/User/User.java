@@ -40,4 +40,8 @@ public class User {
     public void setEmail(String newEmail){
         this.email = newEmail;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

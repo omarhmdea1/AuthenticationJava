@@ -1,9 +1,13 @@
 package authentication.server.repository;
 
 import authentication.server.User.User;
+
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UsersRepository {
     public static void writeUserToRepo(User newUser){
@@ -17,6 +21,25 @@ public class UsersRepository {
         userMap.put("email", newUser.getEmail());
         userMap.put("password", newUser.getPassword());
         ReadWriteToJson.writeToJson(fileName, userMap);
+    }
+
+    public static Optional<User> readUserFromRepo(String userEmail){
+        String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(userDirectory), "*.json")) {
+            Map<String,String> userMap;
+            for (Path p : stream) {
+                System.out.println(p.toString());
+                userMap = ReadWriteToJson.readFromJson(p.toString());
+                if(userMap != null && !userMap.isEmpty() && userMap.containsKey("email")) {
+                    if (userMap.get("email").equals(userEmail)) {
+                        return Optional.of(new User(Integer.parseInt(userMap.get("id")), userMap.get("name"), userMap.get("email"), userMap.get("password")));
+                    }
+                }
+            }
+            return Optional.empty();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean userIsValid(String email, String password) {

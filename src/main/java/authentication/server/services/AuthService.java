@@ -8,7 +8,20 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuthService {
-    private Map<String, String> tokenEmail = new HashMap<>();
+    private Map<String, String> tokenEmail;
+    private static AuthService instance;
+    private UsersRepository usersRepository;
+
+    private AuthService() {
+        tokenEmail = new HashMap<>();
+        usersRepository = UsersRepository.getInstance();
+    }
+    public static AuthService getInstance() {
+        if(instance == null) {
+            instance = new AuthService();
+        }
+        return instance;
+    }
 
     public void createNewUser(String name, String email, String password){
         if(!UsersRepository.emailIsFree(email)){

@@ -2,6 +2,7 @@ package authentication.server.repository;
 
 import authentication.server.User.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashMap;
@@ -27,8 +28,9 @@ public class UsersRepository {
     }
 
     private void loadMap() {
-        String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(userDirectory), "*.json")) {
+        String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
+        //String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(PATH), "*.json")) {
             Map<String, String> user;
             for (Path p : stream) {
                 user = ReadWriteToJson.readFromJson(p.toString());
@@ -42,7 +44,7 @@ public class UsersRepository {
     }
 
     public void writeUserToRepo(User newUser) {
-        String PATH = "/Users/omarhmdea/Desktop/authentication/src/main/java/authentication/server/repository/usersData/";
+        String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
         String fileName = PATH + String.valueOf(newUser.getId()) + ".json";
         Map<String, String> user = new HashMap<>();
         user.put("id", String.valueOf(newUser.getId()));
@@ -64,15 +66,16 @@ public class UsersRepository {
         return Optional.empty();
     }
 
-    public Optional<User> getUserById(int id){
+    public Optional<User> getUserById(int id) {
         if (this.userMap != null && !this.userMap.isEmpty()) {
             return Optional.of(this.userMap.get(id));
         }
         return Optional.empty();
     }
+
     public int userIsValid(String email, String password) {
-        for(User user : userMap.values()){
-            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+        for (User user : userMap.values()) {
+            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 return user.getId();
             }
         }
@@ -80,11 +83,31 @@ public class UsersRepository {
     }
 
     public boolean emailIsFree(String email) {
-        for(User user : userMap.values()){
-            if(user.getEmail().equals(email)){
+        for (User user : userMap.values()) {
+            if (user.getEmail().equals(email)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public void deleteUser(int id) {
+        String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
+        File file = new File(PATH + id + ".json");
+        if (file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Can't delete file. File " + file.getName() + " doesn't exist.");
+        }
+    }
+
+    public void updateUserDetails(User user) {
+        if (this.userMap != null && !this.userMap.isEmpty()) {
+            User editedUser = userMap.get(user.getId());
+            editedUser.setName(user.getName());
+            editedUser.setEmail(user.getEmail());
+            editedUser.setPassword(user.getPassword());
+            writeUserToRepo(editedUser);
+        }
     }
 }

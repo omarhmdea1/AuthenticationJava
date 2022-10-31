@@ -43,7 +43,7 @@ public class UserService {
 
 
     public void delete(int id) {
-        //usersRepository.deletUser(id);
+        //usersRepository.deleteUser(id);
     }
 
 

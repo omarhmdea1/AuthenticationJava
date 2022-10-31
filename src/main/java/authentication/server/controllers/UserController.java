@@ -7,7 +7,19 @@ import java.util.regex.Pattern;
 
 public class UserController {
     private static UserService userService;
+    private static UserController instance;
     private Pattern pattern;
+
+    private UserController() {
+        userService = UserService.getInstance();
+    }
+
+    public static UserController getInstance() {
+        if(instance == null) {
+            instance = new UserController();
+        }
+        return instance;
+    }
 
     public void updateName(String token, String name) {
         if(! checkAuth(token)) {
@@ -16,7 +28,7 @@ public class UserController {
         if(! isValidName(name)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        //userService.updateName(token, name);
+        userService.updateName(token, name);
     }
 
     public void updateEmail(String token, String email) {
@@ -26,7 +38,7 @@ public class UserController {
         if(! isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        //userService.updateEmail(token, name);
+        userService.updateEmail(token, email);
     }
 
     public void updatePassword(String token, String password) {
@@ -36,18 +48,18 @@ public class UserController {
         if(! isValidPassword(password)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        //userService.updatePassword(token, name);
+        userService.updatePassword(token, password);
     }
 
     public void delete(String token) {
         if(! checkAuth(token)) {
             throw new IllegalArgumentException("Invalid token");
         }
-        //userService.delete(token);
+        userService.delete(token);
     }
 
     private boolean checkAuth(String token) {
-        return AuthService.isValidToken(token);
+        return userService.isValidToken(token);
     }
 
     private boolean isValidName(String name) {

@@ -1,4 +1,4 @@
-package authentication.server.controllers;
+package authentication.server.controllers.Utils;
 
 import java.util.regex.Pattern;
 

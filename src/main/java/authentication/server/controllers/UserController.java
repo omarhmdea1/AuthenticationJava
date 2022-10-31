@@ -1,9 +1,7 @@
 package authentication.server.controllers;
 
-import authentication.server.services.AuthService;
+import authentication.server.controllers.Utils.Validetor;
 import authentication.server.services.UserService;
-
-import java.util.regex.Pattern;
 
 public class UserController {
     private static UserService userService;
@@ -23,7 +21,7 @@ public class UserController {
         if(! checkAuth(token)) {
             throw new IllegalArgumentException("Invalid token");
         }
-        if(!Validetor.isValidName(name)) {
+        if(! Validetor.isValidName(name)) {
             throw new IllegalArgumentException("Invalid name");
         }
         userService.updateUserDetails(token, name);

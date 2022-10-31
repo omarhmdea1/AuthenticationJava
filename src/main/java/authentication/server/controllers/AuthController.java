@@ -1,5 +1,6 @@
 package authentication.server.controllers;
 
+import authentication.server.controllers.Utils.Validetor;
 import authentication.server.services.AuthService;
 
 import java.util.Map;
@@ -23,7 +24,7 @@ public class AuthController {
 
     public void register(String name, String email, String password) {
         this.checkEmailAndPassword(email, password);
-        if(!Validetor.isValidName(name)) throw new IllegalArgumentException("Invalid name");
+        if(! Validetor.isValidName(name)) throw new IllegalArgumentException("Invalid name");
         authService.createNewUser(name, email, password);
     }
 

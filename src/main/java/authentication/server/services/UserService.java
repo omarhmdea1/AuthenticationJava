@@ -1,7 +1,6 @@
 package authentication.server.services;
 
 import authentication.server.User.User;
-import authentication.server.repository.UsersRepository;
 
 public class UserService {
 
@@ -13,12 +12,14 @@ public class UserService {
         //authService = AuthService.getInstance();
     }
 
+
     public static UserService getInstance() {
         if(instance == null) {
             instance = new UserService();
         }
         return instance;
     }
+
 
     public void updateUserDetails(String token, String field) {
         User user = getUserByToken(token);
@@ -43,9 +44,11 @@ public class UserService {
         //UsersRepository.deletUser(user);
     }
 
+
     public boolean isValidToken(String token) {
-        return authService.isValidT oken(token);
+        return authService.isValidToken(token);
     }
+
 
     private User getUserByToken(String token) {
         //todo

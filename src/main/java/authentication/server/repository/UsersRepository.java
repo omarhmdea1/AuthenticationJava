@@ -10,6 +10,23 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class UsersRepository {
+
+    private Map<Integer, User> userMap;
+    private static UsersRepository instance;
+
+    private UsersRepository(){
+        userMap =new HashMap<>();
+        //this.loadMap();
+        //you can use readUserFromRepo to load Map
+    }
+
+    public static UsersRepository getInstance() {
+        if(instance == null) {
+            instance = new UsersRepository();
+        }
+        return instance;
+    }
+    //change to Non-static
     public static void writeUserToRepo(User newUser){
         if(newUser==null){
             throw new NullPointerException("User to write can't be null.");
@@ -23,6 +40,7 @@ public class UsersRepository {
         ReadWriteToJson.writeToJson(fileName, userMap);
     }
 
+    //change to Non-static
     public static Optional<User> readUserFromRepo(String userEmail){
         String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(userDirectory), "*.json")) {
@@ -41,11 +59,13 @@ public class UsersRepository {
             throw new RuntimeException(e);
         }
     }
+    //change to Non-static
 
     public static boolean userIsValid(String email, String password) {
         //todo
         return false;
     }
+    //change to Non-static
 
     public static boolean emailIsFree(String email) {
         //todo

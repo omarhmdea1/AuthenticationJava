@@ -52,8 +52,8 @@ public class UsersRepository {
     }
 
     public Optional<User> readUserFromRepo(String userEmail) {
-        if (userMap != null && !userMap.isEmpty()) {
-            for (User user : userMap.values()) {
+        if (this.userMap != null && !this.userMap.isEmpty()) {
+            for (User user : this.userMap.values()) {
                 if (user.getEmail().equals(userEmail)) {
                     return Optional.of(user);
                 }
@@ -62,14 +62,27 @@ public class UsersRepository {
         return Optional.empty();
     }
 
-
-    public boolean userIsValid(String email, String password) {
-        //todo
-        return false;
+    public Optional<User> getUserById(int id){
+        if (this.userMap != null && !this.userMap.isEmpty()) {
+            return Optional.of(this.userMap.get(id));
+        }
+        return Optional.empty();
+    }
+    public int userIsValid(String email, String password) {
+        for(User user : userMap.values()){
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+                return user.getId();
+            }
+        }
+        return -1;
     }
 
     public boolean emailIsFree(String email) {
-        //todo
-        return false;
+        for(User user : userMap.values()){
+            if(user.getEmail().equals(email)){
+                return false;
+            }
+        }
+        return true;
     }
 }

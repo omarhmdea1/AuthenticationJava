@@ -96,6 +96,7 @@ public class UsersRepository {
         File file = new File(PATH + id + ".json");
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
+            userMap.remove(id);
         } else {
             System.out.println("Can't delete file. File " + file.getName() + " doesn't exist.");
         }

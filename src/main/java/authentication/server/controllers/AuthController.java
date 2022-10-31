@@ -12,7 +12,7 @@ public class AuthController {
     private static AuthService authService;
 
     private AuthController() {
-        //authService = AuthService.getInstance();
+        authService = AuthService.getInstance();
     }
 
     public static AuthController getInstance() {
@@ -23,16 +23,14 @@ public class AuthController {
     }
 
     public void register(String name, String email, String password) {
-        this.checkEmailAndPassword(email, password);
         if(! Validetor.isValidName(name)) throw new IllegalArgumentException("Invalid name");
+        this.checkEmailAndPassword(email, password);
         authService.createNewUser(name, email, password);
     }
 
-    public void logIn(String email, String password) {
+    public String logIn(String email, String password) {
         this.checkEmailAndPassword(email, password);
-        Map<String, String> tokenMail = authService.validateUserCredentials(email,password);
-        String token = tokenMail.get(0);
-        //authService.logIn(email, password);
+        return authService.validateUserCredentials(email,password);
     }
     public void checkEmailAndPassword(String email, String password) {
         if(!Validetor.isValidEmail(email)) throw new IllegalArgumentException("Invalid email");

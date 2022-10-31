@@ -8,12 +8,12 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuthService {
-    private Map<String, String> tokenEmail;
+    private Map<String, Integer> tokenId;
     private static AuthService instance;
     private UsersRepository usersRepository;
 
     private AuthService() {
-        tokenEmail = new HashMap<>();
+        tokenId = new HashMap<>();
         usersRepository = UsersRepository.getInstance();
     }
     public static AuthService getInstance() {
@@ -31,16 +31,24 @@ public class AuthService {
         usersRepository.writeUserToRepo(newUser);
     }
 
-    public Map<String, String> validateUserCredentials(String email, String password){
-        if(usersRepository.userIsValid(email, password) == -1){
+    public String validateUserCredentials(String email, String password){
+        int id = usersRepository.userIsValid(email, password);
+
+        if(id < 0){
             throw new Error("One or more details are incorrect");
         }
-        tokenEmail.put(createToken(), email);
-        return tokenEmail;
+
+        String token = createToken();
+        tokenId.put(token, id);
+        return token;
     }
 
-    public boolean isValidToken(String token){
-        return tokenEmail.containsKey(token);
+    public int isValidToken(String token){
+
+        if(tokenId.containsKey(token)) {
+            return tokenId.get(token);
+        }
+        return -1;
     }
 
     private String createToken(){
@@ -53,6 +61,6 @@ public class AuthService {
     }
 
     private int createId(){
-        return 0;
+        return ThreadLocalRandom.current().nextInt(5);
     }
 }

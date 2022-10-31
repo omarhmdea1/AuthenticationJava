@@ -13,6 +13,7 @@ public class UsersRepository {
     private Map<Integer, User> userMap;
     private static UsersRepository instance;
 
+
     private UsersRepository() {
         userMap = new HashMap<>();
         this.loadMap();
@@ -41,7 +42,8 @@ public class UsersRepository {
     }
 
     public void writeUserToRepo(User newUser) {
-        String fileName = String.valueOf(newUser.getId()) + ".json";
+        String PATH = "/Users/omarhmdea/Desktop/authentication/src/main/java/authentication/server/repository/usersData/";
+        String fileName = PATH + String.valueOf(newUser.getId()) + ".json";
         Map<String, String> user = new HashMap<>();
         user.put("id", String.valueOf(newUser.getId()));
         user.put("name", newUser.getName());

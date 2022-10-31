@@ -1,15 +1,18 @@
 package authentication.server.services;
 
 import authentication.server.User.User;
+import authentication.server.repository.UsersRepository;
 
 public class UserService {
 
     private static UserService instance;
     private static AuthService authService;
+    private static UsersRepository usersRepository;
 
 
     private UserService() {
-        //authService = AuthService.getInstance();
+        authService = AuthService.getInstance();
+        usersRepository = UsersRepository.getInstance();
     }
 
 
@@ -21,38 +24,27 @@ public class UserService {
     }
 
 
-    public void updateUserDetails(String token, String field) {
-        User user = getUserByToken(token);
+    public void updateUserDetails(int id, Fields field, String change) {
+        User user = usersRepository.getUserById(id).orElseThrow(NullPointerException::new);
 
         switch(field) {
-            case "name":
-                user.setName(field);
+            case NAME:
+                user.setName(change);
                 break;
-            case "email":
-                user.setEmail(field);
+            case EMAIL:
+                user.setEmail(change);
                 break;
-            case "password":
-                user.setPassword(field);
+            case PASSWORD:
+                user.setPassword(change);
                 break;
         }
-        //UsersRepository.updateUserDetails(user);
+        //usersRepository.updateUserDetails(user);
     }
 
 
-    public void delete(String token) {
-        User user = getUserByToken(token);
-        //UsersRepository.deletUser(user);
+    public void delete(int id) {
+        //usersRepository.deletUser(id);
     }
 
-
-    public boolean isValidToken(String token) {
-        return authService.isValidToken(token);
-    }
-
-
-    private User getUserByToken(String token) {
-        //todo
-        return null;
-    }
 
 }

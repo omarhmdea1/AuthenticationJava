@@ -12,7 +12,7 @@ public class AuthController {
     private static AuthService authService;
 
     private AuthController() {
-        //authService = AuthService.getInstance();
+        authService = AuthService.getInstance();
     }
 
     public static AuthController getInstance() {
@@ -23,8 +23,8 @@ public class AuthController {
     }
 
     public void register(String name, String email, String password) {
-        this.checkEmailAndPassword(email, password);
         if(! Validetor.isValidName(name)) throw new IllegalArgumentException("Invalid name");
+        this.checkEmailAndPassword(email, password);
         authService.createNewUser(name, email, password);
     }
 

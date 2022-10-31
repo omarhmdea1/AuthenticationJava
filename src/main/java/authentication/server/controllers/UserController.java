@@ -41,7 +41,7 @@ public class UserController {
         if(!Validetor.isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        userService.updateUserDetails(id, email);
+        userService.updateUserDetails(id, Fields.EMAIL, email);
     }
 
     public void updatePassword(String token, String password) {
@@ -53,7 +53,7 @@ public class UserController {
         if(!Validetor.isValidPassword(password)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        userService.updateUserDetails(id, password);
+        userService.updateUserDetails(id, Fields.PASSWORD, password);
     }
 
     public void delete(String token) {
@@ -63,10 +63,6 @@ public class UserController {
             throw new IllegalArgumentException("Invalid token");
         }
         userService.delete(id);
-    }
-
-    private boolean checkAuth(String token) {
-        return authService.isValidToken(token);
     }
 
 }

@@ -25,7 +25,7 @@ public class UserService {
 
 
     public void updateUserDetails(int id, Fields field, String change) {
-        //User user = usersRepository.getUserById(id);
+        User user = usersRepository.getUserById(id).orElseThrow(NullPointerException::new);
 
         switch(field) {
             case NAME:

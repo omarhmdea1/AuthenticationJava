@@ -61,6 +61,6 @@ public class AuthService {
     }
 
     private int createId(){
-        return 0;
+        return ThreadLocalRandom.current().nextInt(5);
     }
 }

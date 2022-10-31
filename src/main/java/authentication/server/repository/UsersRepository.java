@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 public class UsersRepository {
@@ -14,61 +13,78 @@ public class UsersRepository {
     private Map<Integer, User> userMap;
     private static UsersRepository instance;
 
-    private UsersRepository(){
-        userMap =new HashMap<>();
-        //this.loadMap();
-        //you can use readUserFromRepo to load Map
+
+    private UsersRepository() {
+        userMap = new HashMap<>();
+        this.loadMap();
     }
 
     public static UsersRepository getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new UsersRepository();
         }
         return instance;
     }
-    //change to Non-static
-    public static void writeUserToRepo(User newUser){
-        if(newUser==null){
-            throw new NullPointerException("User to write can't be null.");
-        }
-        String fileName = String.valueOf(newUser.getId()) + ".json";
-        Map<String,String> userMap = new HashMap<>();
-        userMap.put("id",String.valueOf(newUser.getId()));
-        userMap.put("name", newUser.getName());
-        userMap.put("email", newUser.getEmail());
-        userMap.put("password", newUser.getPassword());
-        ReadWriteToJson.writeToJson(fileName, userMap);
-    }
 
-    //change to Non-static
-    public static Optional<User> readUserFromRepo(String userEmail){
+    private void loadMap() {
         String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(userDirectory), "*.json")) {
-            Map<String,String> userMap;
+            Map<String, String> user;
             for (Path p : stream) {
-                System.out.println(p.toString());
-                userMap = ReadWriteToJson.readFromJson(p.toString());
-                if(userMap != null && !userMap.isEmpty() && userMap.containsKey("email")) {
-                    if (userMap.get("email").equals(userEmail)) {
-                        return Optional.of(new User(Integer.parseInt(userMap.get("id")), userMap.get("name"), userMap.get("email"), userMap.get("password")));
-                    }
+                user = ReadWriteToJson.readFromJson(p.toString());
+                if (user != null && !user.isEmpty() && user.containsKey("id") && user.containsKey("name") && user.containsKey("email") && user.containsKey("password")) {
+                    this.userMap.put(Integer.parseInt(user.get("id")), new User(Integer.parseInt(user.get("id")), user.get("name"), user.get("email"), user.get("password")));
                 }
             }
-            return Optional.empty();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    //change to Non-static
 
-    public static boolean userIsValid(String email, String password) {
-        //todo
-        return false;
+    public void writeUserToRepo(User newUser) {
+        String PATH = "/Users/omarhmdea/Desktop/authentication/src/main/java/authentication/server/repository/usersData/";
+        String fileName = PATH + String.valueOf(newUser.getId()) + ".json";
+        Map<String, String> user = new HashMap<>();
+        user.put("id", String.valueOf(newUser.getId()));
+        user.put("name", newUser.getName());
+        user.put("email", newUser.getEmail());
+        user.put("password", newUser.getPassword());
+        ReadWriteToJson.writeToJson(fileName, user);
+        this.userMap.put(Integer.parseInt(user.get("id")), new User(Integer.parseInt(user.get("id")), user.get("name"), user.get("email"), user.get("password")));
     }
-    //change to Non-static
 
-    public static boolean emailIsFree(String email) {
-        //todo
-        return false;
+    public Optional<User> readUserFromRepo(String userEmail) {
+        if (this.userMap != null && !this.userMap.isEmpty()) {
+            for (User user : this.userMap.values()) {
+                if (user.getEmail().equals(userEmail)) {
+                    return Optional.of(user);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<User> getUserById(int id){
+        if (this.userMap != null && !this.userMap.isEmpty()) {
+            return Optional.of(this.userMap.get(id));
+        }
+        return Optional.empty();
+    }
+    public int userIsValid(String email, String password) {
+        for(User user : userMap.values()){
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+                return user.getId();
+            }
+        }
+        return -1;
+    }
+
+    public boolean emailIsFree(String email) {
+        for(User user : userMap.values()){
+            if(user.getEmail().equals(email)){
+                return false;
+            }
+        }
+        return true;
     }
 }

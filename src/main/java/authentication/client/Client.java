@@ -9,9 +9,11 @@ public class Client {
         AuthController authController = AuthController.getInstance();
         UserController userController = UserController.getInstance();
 
-        authController.register("asd","asd@asd.com","Omar1999");
-        String token = authController.logIn("asd@asd.com","Omar1999");
-        userController.updateName(token, "Eden");
+        authController.register("asd","asd@asd.com","Omar1999$");
+        String token = authController.logIn("asd@asd.com","Omar1999$");
+
+        System.out.println(token);
+        //userController.updateName(token, "Eden");
 
     }
 }

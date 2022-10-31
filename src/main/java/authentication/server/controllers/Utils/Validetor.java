@@ -10,7 +10,7 @@ public class Validetor {
         if(name == null) {
             return false;
         }
-        String regex = "^[A-Za-z]\\w{5,29}$";
+        String regex = "^[A-Za-z]\\w{2,29}$";
         pattern = Pattern.compile(regex);
         return pattern.matcher(name).matches();
     }

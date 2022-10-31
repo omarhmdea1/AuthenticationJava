@@ -22,50 +22,21 @@ public class AuthController {
     }
 
     public void register(String name, String email, String password) {
-        if(! isValidName(name)) throw new IllegalArgumentException("Invalid name");
-        if(! isValidEmail(email)) throw new IllegalArgumentException("Invalid email");
-        if(! isValidPassword(password)) throw new IllegalArgumentException("Invalid password");
-        AuthService.createNewUser(name, email, password);
-        //authService.register(name, email, password);
+        this.checkEmailAndPassword(email, password);
+        if(!Validetor.isValidName(name)) throw new IllegalArgumentException("Invalid name");
+        authService.createNewUser(name, email, password);
     }
 
     public void logIn(String email, String password) {
-        if(! isValidEmail(email)) throw new IllegalArgumentException("Invalid email");
-        if(! isValidPassword(password)) throw new IllegalArgumentException("Invalid password");
-        Map<String, String> tokenMail = AuthService.validateUserCredentials(email,password);
+        this.checkEmailAndPassword(email, password);
+        Map<String, String> tokenMail = authService.validateUserCredentials(email,password);
         String token = tokenMail.get(0);
         //authService.logIn(email, password);
     }
-
-    private boolean isValidName(String name) {
-        if(name == null) {
-            return false;
-        }
-        String regex = "^[A-Za-z]\\w{2,15}$";
-        this.pattern = Pattern.compile(regex);
-        return this.pattern.matcher(name).matches();
+    public void checkEmailAndPassword(String email, String password) {
+        if(!Validetor.isValidEmail(email)) throw new IllegalArgumentException("Invalid email");
+        if(!Validetor.isValidPassword(password)) throw new IllegalArgumentException("Invalid password");
     }
 
 
-    private boolean isValidEmail(String email) {
-        if(email == null){
-            return false;
-        }
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-                            "[a-zA-Z0-9_+&*-]+)*@" +
-                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                            "A-Z]{2,15}$";
-        this.pattern = Pattern.compile(emailRegex);
-        return this.pattern.matcher(email).matches();
-    }
-
-    private boolean isValidPassword(String password) {
-        if(password == null) return false;
-        String regex = "^(?=.*[0-9])" +
-                        "(?=.*[a-z])(?=.*[A-Z])" +
-                        "(?=.*[@#$%^&+=])" +
-                        "(?=\\S+$).{8,20}$";
-        this.pattern = Pattern.compile(regex);
-        return this.pattern.matcher(password).matches();
-    }
 }

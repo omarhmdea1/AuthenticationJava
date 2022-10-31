@@ -1,5 +1,8 @@
 package authentication.server.services;
 
+import authentication.server.User.User;
+import authentication.server.repository.UsersRepository;
+
 public class UserService {
 
     private static UserService instance;
@@ -17,23 +20,36 @@ public class UserService {
         return instance;
     }
 
-    public void updateEmail(String token, String eamil) {
-        // todo
+    public void updateUserDetails(String token, String field) {
+        User user = getUserByToken(token);
+
+        switch(field) {
+            case "name":
+                user.setName(field);
+                break;
+            case "email":
+                user.setEmail(field);
+                break;
+            case "password":
+                user.setPassword(field);
+                break;
+        }
+        //UsersRepository.updateUserDetails(user);
     }
 
-    public void updateName(String token, String name) {
-        // todo
-    }
-
-    public void updatePassword(String token, String password) {
-        // todo
-    }
 
     public void delete(String token) {
-        // todo
+        User user = getUserByToken(token);
+        //UsersRepository.deletUser(user);
     }
 
     public boolean isValidToken(String token) {
-        return authService.isValidToken(token);
+        return authService.isValidT oken(token);
     }
+
+    private User getUserByToken(String token) {
+        //todo
+        return null;
+    }
+
 }

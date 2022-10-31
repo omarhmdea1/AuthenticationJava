@@ -28,11 +28,9 @@ public class AuthController {
         authService.createNewUser(name, email, password);
     }
 
-    public void logIn(String email, String password) {
+    public String logIn(String email, String password) {
         this.checkEmailAndPassword(email, password);
-        Map<String, String> tokenMail = authService.validateUserCredentials(email,password);
-        String token = tokenMail.get(0);
-        //authService.logIn(email, password);
+        return authService.validateUserCredentials(email,password);
     }
     public void checkEmailAndPassword(String email, String password) {
         if(!Validetor.isValidEmail(email)) throw new IllegalArgumentException("Invalid email");

@@ -1,10 +1,13 @@
 package authentication.server.controllers;
 
 import authentication.server.controllers.Utils.Validetor;
+import authentication.server.services.AuthService;
+import authentication.server.services.Fields;
 import authentication.server.services.UserService;
 
 public class UserController {
     private static UserService userService;
+    private AuthService authService;
     private static UserController instance;
     private UserController() {
         userService = UserService.getInstance();
@@ -18,44 +21,52 @@ public class UserController {
     }
 
     public void updateName(String token, String name) {
-        if(! checkAuth(token)) {
+        int id = authService.isValidToken(token);
+
+        if(id < 0) {
             throw new IllegalArgumentException("Invalid token");
         }
         if(! Validetor.isValidName(name)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        userService.updateUserDetails(token, name);
+        userService.updateUserDetails(id, Fields.NAME, name);
     }
 
     public void updateEmail(String token, String email) {
-        if(! checkAuth(token)) {
+        int id = authService.isValidToken(token);
+
+        if(id < 0) {
             throw new IllegalArgumentException("Invalid token");
         }
         if(!Validetor.isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        userService.updateUserDetails(token, email);
+        userService.updateUserDetails(id, email);
     }
 
     public void updatePassword(String token, String password) {
-        if(! checkAuth(token)) {
+        int id = authService.isValidToken(token);
+
+        if(id < 0) {
             throw new IllegalArgumentException("Invalid token");
         }
         if(!Validetor.isValidPassword(password)) {
             throw new IllegalArgumentException("Invalid name");
         }
-        userService.updateUserDetails(token, password);
+        userService.updateUserDetails(id, password);
     }
 
     public void delete(String token) {
-        if(! checkAuth(token)) {
+        int id = authService.isValidToken(token);
+
+        if(id < 0) {
             throw new IllegalArgumentException("Invalid token");
         }
-        userService.delete(token);
+        userService.delete(id);
     }
 
     private boolean checkAuth(String token) {
-        return userService.isValidToken(token);
+        return authService.isValidToken(token);
     }
 
 }

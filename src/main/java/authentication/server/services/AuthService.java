@@ -32,7 +32,7 @@ public class AuthService {
     }
 
     public Map<String, String> validateUserCredentials(String email, String password){
-        if(!usersRepository.userIsValid(email, password)){
+        if(usersRepository.userIsValid(email, password) == -1){
             throw new Error("One or more details are incorrect");
         }
         tokenEmail.put(createToken(), email);

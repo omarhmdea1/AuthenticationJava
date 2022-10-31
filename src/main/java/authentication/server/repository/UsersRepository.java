@@ -41,9 +41,6 @@ public class UsersRepository {
     }
 
     public void writeUserToRepo(User newUser) {
-        if (newUser == null) {
-            throw new NullPointerException("User to write can't be null.");
-        }
         String fileName = String.valueOf(newUser.getId()) + ".json";
         Map<String, String> user = new HashMap<>();
         user.put("id", String.valueOf(newUser.getId()));

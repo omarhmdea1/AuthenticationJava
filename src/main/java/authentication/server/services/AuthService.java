@@ -2,7 +2,6 @@ package authentication.server.services;
 
 import authentication.server.User.User;
 import authentication.server.repository.UsersRepository;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,18 +32,15 @@ public class AuthService {
 
     public String validateUserCredentials(String email, String password){
         int id = usersRepository.userIsValid(email, password);
-
         if(id < 0){
             throw new Error("One or more details are incorrect");
         }
-
         String token = createToken();
         tokenId.put(token, id);
         return token;
     }
 
     public int isValidToken(String token){
-
         if(tokenId.containsKey(token)) {
             return tokenId.get(token);
         }

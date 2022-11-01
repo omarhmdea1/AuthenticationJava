@@ -2,8 +2,6 @@ package authentication.server.controllers;
 
 import authentication.server.controllers.Utils.Validetor;
 import authentication.server.services.AuthService;
-
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class AuthController {
@@ -36,6 +34,4 @@ public class AuthController {
         if(!Validetor.isValidEmail(email)) throw new IllegalArgumentException("Invalid email");
         if(!Validetor.isValidPassword(password)) throw new IllegalArgumentException("Invalid password");
     }
-
-
 }

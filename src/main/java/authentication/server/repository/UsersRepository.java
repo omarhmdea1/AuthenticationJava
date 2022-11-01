@@ -28,9 +28,8 @@ public class UsersRepository {
     }
 
     private void loadMap() {
-        String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
-        //String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(PATH), "*.json")) {
+        String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(userDirectory), "*.json")) {
             Map<String, String> user;
             for (Path p : stream) {
                 user = ReadWriteToJson.readFromJson(p.toString());
@@ -44,8 +43,8 @@ public class UsersRepository {
     }
 
     public void writeUserToRepo(User newUser) {
-        String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
-        String fileName = PATH + String.valueOf(newUser.getId()) + ".json";
+        String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
+        String fileName = userDirectory + "/" + String.valueOf(newUser.getId()) + ".json";
         Map<String, String> user = new HashMap<>();
         user.put("id", String.valueOf(newUser.getId()));
         user.put("name", newUser.getName());
@@ -91,16 +90,16 @@ public class UsersRepository {
         return true;
     }
 
-    public boolean idIsFree(int id){
-        if ((this.userMap != null && !this.userMap.isEmpty() && userMap.get(id) == null) || this.userMap.isEmpty()){
+    public boolean idIsFree(int id) {
+        if ((this.userMap != null && !this.userMap.isEmpty() && userMap.get(id) == null) || this.userMap.isEmpty()) {
             return true;
         }
         return false;
     }
 
     public void deleteUser(int id) {
-        String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
-        File file = new File(PATH + id + ".json");
+        String userDirectory = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
+        File file = new File(userDirectory + "/" + id + ".json");
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
             userMap.remove(id);

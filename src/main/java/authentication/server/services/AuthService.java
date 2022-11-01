@@ -2,7 +2,6 @@ package authentication.server.services;
 
 import authentication.server.User.User;
 import authentication.server.repository.UsersRepository;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,18 +32,15 @@ public class AuthService {
 
     public String validateUserCredentials(String email, String password){
         int id = usersRepository.userIsValid(email, password);
-
         if(id < 0){
             throw new Error("One or more details are incorrect");
         }
-
         String token = createToken();
         tokenId.put(token, id);
         return token;
     }
 
     public int isValidToken(String token){
-
         if(tokenId.containsKey(token)) {
             return tokenId.get(token);
         }
@@ -53,14 +49,23 @@ public class AuthService {
 
     private String createToken(){
         String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder stringBuilder = new StringBuilder(6);
-        for (int i = 0; i < 6; i++){
-            stringBuilder.append(chars.charAt(ThreadLocalRandom.current().nextInt(chars.length())));
+        StringBuilder stringBuilder;
+        do {
+            stringBuilder = new StringBuilder(6);
+            for (int i = 0; i < 6; i++) {
+                stringBuilder.append(chars.charAt(ThreadLocalRandom.current().nextInt(chars.length())));
+            }
         }
+        while (tokenId.get(stringBuilder) != null);
         return stringBuilder.toString();
     }
 
     private int createId(){
-        return ThreadLocalRandom.current().nextInt(5);
+        int newId;
+        do {
+            newId = ThreadLocalRandom.current().nextInt(999);
+        }
+        while(!usersRepository.idIsFree(newId));
+        return newId;
     }
 }

@@ -91,6 +91,13 @@ public class UsersRepository {
         return true;
     }
 
+    public boolean idIsFree(int id){
+        if ((this.userMap != null && !this.userMap.isEmpty() && userMap.get(id) == null) || this.userMap.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
     public void deleteUser(int id) {
         String PATH = new File("").getAbsolutePath() + "\\src\\main\\java\\authentication\\server\\repository\\usersData\\";
         File file = new File(PATH + id + ".json");

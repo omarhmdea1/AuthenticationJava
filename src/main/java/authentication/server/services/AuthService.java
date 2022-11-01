@@ -53,14 +53,23 @@ public class AuthService {
 
     private String createToken(){
         String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder stringBuilder = new StringBuilder(6);
-        for (int i = 0; i < 6; i++){
-            stringBuilder.append(chars.charAt(ThreadLocalRandom.current().nextInt(chars.length())));
+        StringBuilder stringBuilder;
+        do {
+            stringBuilder = new StringBuilder(6);
+            for (int i = 0; i < 6; i++) {
+                stringBuilder.append(chars.charAt(ThreadLocalRandom.current().nextInt(chars.length())));
+            }
         }
+        while (tokenId.get(stringBuilder) != null);
         return stringBuilder.toString();
     }
 
     private int createId(){
-        return ThreadLocalRandom.current().nextInt(5);
+        int newId;
+        do {
+            newId = ThreadLocalRandom.current().nextInt(999);
+        }
+        while(!usersRepository.idIsFree(newId));
+        return newId;
     }
 }

@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AuthService {
-    private Map<String, Integer> tokenId;
+    private final Map<String, Integer> tokenId;
     private static AuthService instance;
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
     private AuthService() {
         tokenId = new HashMap<>();

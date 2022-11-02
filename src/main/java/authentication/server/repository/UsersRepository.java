@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class UsersRepository {
 
-    private Map<Integer, User> userMap;
+    private final Map<Integer, User> userMap;
     private static UsersRepository instance;
 
 

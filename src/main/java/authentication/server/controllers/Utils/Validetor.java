@@ -40,4 +40,13 @@ public class Validetor {
         pattern = Pattern.compile(regex);
         return pattern.matcher(password).matches();
     }
+
+    public static String getPasswordConstraints(){
+        return "\ncontains at least 8 characters and at most 20 characters.\n" +
+                "At least one digit.\n" +
+                "At least one upper case alphabet.\n" +
+                "At least one lower case alphabet.\n" +
+                "At least one special character which includes !@#$%&*()-+=^.\n" +
+                "doesn’t contain any white space.";
+    }
 }

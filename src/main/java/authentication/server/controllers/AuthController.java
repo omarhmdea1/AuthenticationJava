@@ -2,10 +2,8 @@ package authentication.server.controllers;
 
 import authentication.server.controllers.Utils.Validetor;
 import authentication.server.services.AuthService;
-import java.util.regex.Pattern;
 
 public class AuthController {
-    private Pattern pattern;
     private static AuthController instance;
     private static AuthService authService;
 
@@ -31,7 +29,11 @@ public class AuthController {
         return authService.validateUserCredentials(email,password);
     }
     public void checkEmailAndPassword(String email, String password) {
-        if(!Validetor.isValidEmail(email)) throw new IllegalArgumentException("Invalid email");
-        if(!Validetor.isValidPassword(password)) throw new IllegalArgumentException("Invalid password");
+        if(!Validetor.isValidEmail(email)) {
+            throw new IllegalArgumentException("Invalid email");}
+
+        if(!Validetor.isValidPassword(password)) {
+            throw new IllegalArgumentException("Invalid password, password must contain :" + Validetor.getPasswordConstraints());
+        }
     }
 }

@@ -5,11 +5,9 @@ import authentication.server.repository.UsersRepository;
 
 public class UserService {
     private static UserService instance;
-    private static AuthService authService;
     private static UsersRepository usersRepository;
 
     private UserService() {
-        authService = AuthService.getInstance();
         usersRepository = UsersRepository.getInstance();
     }
 
@@ -34,10 +32,10 @@ public class UserService {
                 user.setPassword(change);
                 break;
         }
-        //usersRepository.updateUserDetails(user);
+        usersRepository.updateUserDetails(user);
     }
 
     public void delete(int id) {
-        //usersRepository.deleteUser(id);
+        usersRepository.deleteUser(id);
     }
 }

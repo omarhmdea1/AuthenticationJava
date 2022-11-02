@@ -78,13 +78,13 @@ public class UsersRepository {
                 return user.getId();
             }
         }
-        return -1;
+        throw new Error("One or more details are incorrect");
     }
 
     public boolean emailIsFree(String email) {
         for (User user : userMap.values()) {
             if (user.getEmail().equals(email)) {
-                return false;
+                throw new Error("Email is occupied, please enter a different one");
             }
         }
         return true;

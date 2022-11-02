@@ -23,18 +23,13 @@ public class AuthService {
     }
 
     public void createNewUser(String name, String email, String password){
-        if(!usersRepository.emailIsFree(email)){
-            throw new Error("Email is occupied, please enter a different one");
-        }
+        usersRepository.emailIsFree(email);
         User newUser = new User(createId(), name, email, password);
         usersRepository.writeUserToRepo(newUser);
     }
 
     public String validateUserCredentials(String email, String password){
         int id = usersRepository.userIsValid(email, password);
-        if(id < 0){
-            throw new Error("One or more details are incorrect");
-        }
         String token = createToken();
         tokenId.put(token, id);
         return token;
@@ -44,7 +39,7 @@ public class AuthService {
         if(tokenId.containsKey(token)) {
             return tokenId.get(token);
         }
-        return -1;
+        throw new Error("Invalid token");
     }
 
     private String createToken(){
@@ -67,5 +62,9 @@ public class AuthService {
         }
         while(!usersRepository.idIsFree(newId));
         return newId;
+    }
+
+    public boolean emailIsFree(String email){
+        return usersRepository.emailIsFree(email);
     }
 }

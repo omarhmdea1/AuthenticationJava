@@ -1,6 +1,6 @@
 package authentication.server.controllers;
 
-import authentication.server.controllers.Utils.Validetor;
+import authentication.server.controllers.Utils.Validator;
 import authentication.server.services.AuthService;
 
 public class AuthController {
@@ -19,7 +19,7 @@ public class AuthController {
     }
 
     public void register(String name, String email, String password) {
-        if(! Validetor.isValidName(name)) throw new IllegalArgumentException("Invalid name");
+        Validator.isValidName(name);
         this.checkEmailAndPassword(email, password);
         authService.createNewUser(name, email, password);
     }
@@ -28,12 +28,9 @@ public class AuthController {
         this.checkEmailAndPassword(email, password);
         return authService.validateUserCredentials(email,password);
     }
-    public void checkEmailAndPassword(String email, String password) {
-        if(!Validetor.isValidEmail(email)) {
-            throw new IllegalArgumentException("Invalid email");}
 
-        if(!Validetor.isValidPassword(password)) {
-            throw new IllegalArgumentException("Invalid password, password must contain :" + Validetor.getPasswordConstraints());
-        }
+    public void checkEmailAndPassword(String email, String password) {
+        Validator.isValidEmail(email);
+        Validator.isValidPassword(password);
     }
 }

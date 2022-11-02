@@ -1,6 +1,6 @@
 package authentication.server.controllers;
 
-import authentication.server.controllers.Utils.Validator;
+import authentication.server.Utils.Validator;
 import authentication.server.services.AuthService;
 
 public class AuthController {

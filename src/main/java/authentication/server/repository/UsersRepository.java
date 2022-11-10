@@ -1,6 +1,8 @@
 package authentication.server.repository;
 
 import authentication.server.User.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,7 @@ public class UsersRepository {
 
     private final Map<Integer, User> userMap;
     private static UsersRepository instance;
+    private static Logger logger = LogManager.getLogger(UsersRepository.class.getName());
 
 
     private UsersRepository() {
@@ -38,6 +41,7 @@ public class UsersRepository {
                 }
             }
         } catch (IOException e) {
+            logger.fatal("loadAllUsers: "+e);
             throw new RuntimeException(e);
         }
     }
@@ -50,6 +54,7 @@ public class UsersRepository {
         user.put("name", newUser.getName());
         user.put("email", newUser.getEmail());
         user.put("password", newUser.getPassword());
+        logger.trace("You are trying to add new user to REPO");
         ReadWriteToJson.writeToJson(fileName, user);
         this.userMap.put(Integer.parseInt(user.get("id")), new User(Integer.parseInt(user.get("id")), user.get("name"), user.get("email"), user.get("password")));
     }

@@ -2,10 +2,14 @@ package authentication.server.controllers;
 
 import authentication.server.controllers.Utils.Validator;
 import authentication.server.services.AuthService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AuthController {
     private static AuthController instance;
     private static AuthService authService;
+    private static Logger logger = LogManager.getLogger(AuthController.class.getName());
+
 
     private AuthController() {
         authService = AuthService.getInstance();
@@ -19,7 +23,7 @@ public class AuthController {
     }
 
     public void register(String name, String email, String password) {
-        Validator.isValidName(name);
+        Validator.isValidName(name, logger);
         this.checkEmailAndPassword(email, password);
         authService.createNewUser(name, email, password);
     }
@@ -30,7 +34,7 @@ public class AuthController {
     }
 
     public void checkEmailAndPassword(String email, String password) {
-        Validator.isValidEmail(email);
-        Validator.isValidPassword(password);
+        Validator.isValidEmail(email, logger);
+        Validator.isValidPassword(password, logger);
     }
 }

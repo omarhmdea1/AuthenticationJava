@@ -1,0 +1,17 @@
+2022-11-10 07:03:03,187 TRACE   authentication.server.repository.UsersRepository - You are trying to add new user to REPO
+2022-11-10 07:03:03,198 WARN    authentication.server.repository.ReadWriteToJson - You are trying to write data of a user to a file
+2022-11-10 07:03:03,203 INFO    authentication.server.repository.ReadWriteToJson - You added new user Successfully
+2022-11-10 07:03:03,204 TRACE   authentication.server.repository.UsersRepository - You are trying to add new user to REPO
+2022-11-10 07:03:03,204 WARN    authentication.server.repository.ReadWriteToJson - You are trying to write data of a user to a file
+2022-11-10 07:03:03,204 INFO    authentication.server.repository.ReadWriteToJson - You added new user Successfully
+2022-11-10 07:03:03,205 TRACE   authentication.server.repository.UsersRepository - You are trying to add new user to REPO
+2022-11-10 07:03:03,205 WARN    authentication.server.repository.ReadWriteToJson - You are trying to write data of a user to a file
+2022-11-10 07:03:03,205 INFO    authentication.server.repository.ReadWriteToJson - You added new user Successfully
+2022-11-10 07:03:03,206 INFO    authentication.server.controllers.UserController - You updated the name Successfully
+2022-11-10 07:03:03,206 TRACE   authentication.server.repository.UsersRepository - You are trying to add new user to REPO
+2022-11-10 07:03:03,206 WARN    authentication.server.repository.ReadWriteToJson - You are trying to write data of a user to a file
+2022-11-10 07:03:03,206 INFO    authentication.server.repository.ReadWriteToJson - You added new user Successfully
+2022-11-10 07:03:03,206 TRACE   authentication.server.repository.UsersRepository - You are trying to add new user to REPO
+2022-11-10 07:03:03,206 WARN    authentication.server.repository.ReadWriteToJson - You are trying to write data of a user to a file
+2022-11-10 07:03:03,207 INFO    authentication.server.repository.ReadWriteToJson - You added new user Successfully
+2022-11-10 07:03:03,207 INFO    authentication.server.controllers.UserController - You updated the password Successfully

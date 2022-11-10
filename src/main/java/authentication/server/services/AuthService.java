@@ -2,6 +2,9 @@ package authentication.server.services;
 
 import authentication.server.User.User;
 import authentication.server.repository.UsersRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,6 +13,7 @@ public class AuthService {
     private final Map<String, Integer> tokenId;
     private static AuthService instance;
     private final UsersRepository usersRepository;
+
 
     private AuthService() {
         tokenId = new HashMap<>();
